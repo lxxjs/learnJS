@@ -2,6 +2,10 @@ body {
     background-color: beige;
 }
 
+.hidden {
+    display: none;
+}
+
 h1 {
     color: cornflowerblue;
 }

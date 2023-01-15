@@ -4,12 +4,28 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/style.css">
         <title>Momentum</title>
     </head>
     <body>
         <h1 id="title">Hello</h1>
-        <p>asdkfdfdfddf<br>dkfajdlf<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
-        <script src="script.js"></script>
+        <form id="loginForm" class="hidden">
+            <input 
+                required 
+                maxlength="15" 
+                type="text" 
+                placeholder="Username">
+            <button type="submit">Log In</button>
+        </form>
+        <h2 class="hidden" id="greeting">Default text</h2>
+        <h2 id="clock">00:00:00</h2>
+        <div id="quote">
+            <span></span><br>
+            <span></span>
+        </div>
+
+        <script src="js/greetings.js"></script>
+        <script src="js/clock.js"></script>
+        <script src="js/quotes.js"></script>
     </body>
 </html>
