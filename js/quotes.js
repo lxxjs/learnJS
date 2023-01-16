@@ -39,16 +39,15 @@ const quotes = [
         quote: "If you tell the truth, you don't have to remember anything.",
         author: "Mark Twain"
     }
-]
+];
 
-const quote = document.querySelector("#quote span:first-child")
-const author = document.querySelector("#quote span:last-child")
+const quote = document.querySelector("#quote span:first-child");
+const author = document.querySelector("#quote span:last-child");
 
 function getRandomQuote() {
     const index = Math.floor(quotes.length * Math.random());
-    console.log(index);
     quote.innerText = quotes[index].quote;
     author.innerText = quotes[index].author;
 }
 
-getRandomQuote()
+getRandomQuote();
