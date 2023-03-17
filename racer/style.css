@@ -1,11 +1,11 @@
 html, body {
     margin: 0px;
     padding: 0px;
-    background-color: #ebeb9d; 
+    background-color: #8fb1e9;
 }
 
 #canvas {
-    background-color: rgb(255,255,204);
+    background-color: #a9d7f6;
     position: absolute;
     top: 50%;
     left: 50%;
