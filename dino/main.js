@@ -4,6 +4,12 @@ const ctx = canvas.getContext('2d'); // canvas에 접근, 2d 렌더링 컨텍스
 canvas.width =  window.innerWidth - 100;
 canvas.height = window.innerHeight - 100;
 
+let animation;
+let timer = 0;
+const cactusArray = [];
+let isJump = false;
+let jumpTime = 0;
+
 const dino = {
     x : 10,
     y : 200,
@@ -14,8 +20,6 @@ const dino = {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
-
-dino.draw();
 
 class Cactus {
     constructor() {
@@ -30,33 +34,26 @@ class Cactus {
     }
 }
 
-let animation;
-let timer = 0;
-const cactusArray = [];
-let isJump = false;
-let jumpTime = 0;
 
 function everyFrame() {
     animation = requestAnimationFrame(everyFrame);
     timer++;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    
     if (timer % 200 === 0) {
         const cactus = new Cactus();
         cactusArray.push(cactus);
     }
-
+    
     cactusArray.forEach((cac, index, thisArray) => {
         if (cac.x < 0) {
             thisArray.splice(index, 1);
         }
         cac.x -= 2;
-
         collisionCheck(dino, cac);
-
         cac.draw();
     })
-
+    
     if (isJump === true) {
         dino.y -= 2;
         jumpTime++;
@@ -70,10 +67,9 @@ function everyFrame() {
         isJump = false;
         jumpTime = 0;
     }
-
+    
     dino.draw();
 };
-everyFrame();
 
 document.addEventListener('keydown', function(e) {
     if (e.code === 'Space') {
@@ -89,3 +85,6 @@ function collisionCheck(dino, cactus) {
         cancelAnimationFrame(animation);
     }
 }
+
+dino.draw();
+everyFrame();
