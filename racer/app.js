@@ -1,25 +1,26 @@
 // 브라우저가 이미지 파일(<img>)이나 스타일시트 등의 기타 자원은 기다리지 않고 HTML을 전부 읽고 DOM 트리를 완성하는 즉시 setup -> 지체없는 화면 로딩
 document.addEventListener("DOMContentLoaded", setup);
+let player;
+let direction = {"toLeft" : false, "toUp" : false, "toRight" : false, "toDown" : false}
 
-let toLeft = false;
-let toRight = false;
-
-document.onkeydown = function(e) {
+document.onkeypress = function(e) {
     switch (e.keyCode) {
         case 37:
-            toLeft = true;
-            console.log("toLeft");
+            direction = {"toLeft" : false, "toUp" : false, "toRight" : false, "toDown" : false}
+            direction["toLeft"] = true;
             break;
-        // case 38:
-        //     str = 'Up Key pressed!';
-        //     break;
+        case 38:
+            direction = {"toLeft" : false, "toUp" : false, "toRight" : false, "toDown" : false}
+            direction["toDown"] = true;
+            break;
         case 39:
-            toRight = true;
-            console.log("toRight");
+            direction = {"toLeft" : false, "toUp" : false, "toRight" : false, "toDown" : false}
+            direction["toRight"] = true;
             break;
-        // case 40:
-        //     str = 'Down Key pressed!';
-        //     break;
+        case 40:
+            direction = {"toLeft" : false, "toUp" : false, "toRight" : false, "toDown" : false}
+            direction["toUp"] = true;
+            break;
     }
 };
 
@@ -29,14 +30,18 @@ class MaBoi {
         this.y = y;
         this.ctx = ctx;
     }
-
+    
     draw() {
         this.ctx.fillStyle = "#f96d6d"
         this.ctx.fillRect(this.x, this.y, 25, 25);
-        if (toLeft) {
+        if (direction["toLeft"]) {
             this.x -= 5;
-        } else if (toRight) {
+        } else if (direction["toRight"]) {
             this.x += 5;
+        } else if (direction["toUp"]) {
+            this.y += 5;
+        } else if (direction["toDown"]) {
+            this.y -= 5;
         }
     }
 }
@@ -49,13 +54,18 @@ function setup() {
     ctx.fillStyle = "#b84d69"
     ctx.fillRect(350, 50, 100, 50);
     ctx.fillRect(350, 700, 100, 50);
-    const mb = new MaBoi(50, 390, ctx);
-
-    animateLoop(mb);
+    player = new MaBoi(50, 390, ctx);
+    player.draw();
+    animateLoop();
 }
 
-function animateLoop(mb) {
-    mb.draw();
+function animateLoop() {
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
 
-    requestAnimationFrame(animateLoop(mb));
+    requestAnimationFrame(animateLoop);
+    
+    ctx.clearRect(0, 0, 800, 800);
+    player.draw();
+
 }
