@@ -3,31 +3,48 @@
   <body>
     <div id="root"></div>
   </body>
-  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
   <!-- jsx -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    function Btn({ banana }) {
+    function Btn({ banana, fontSize = 14, changeValue }) {
+      // you could pass a function as a prop
+      console.log(banana);
       return (
         <button
+          onClick={changeValue}
           style={{
             backgroundColor: "tomato",
             color: "white",
             padding: "10px 20px",
             border: 0,
             borderRadius: 10,
+            fontSize,
           }}
         >
           {banana}
         </button>
       );
     }
+    const MemorizedBtn = React.memo(Btn);
+    MemorizedBtn.propTypes = {
+      banana: PropTypes.string.isRequired,
+      fontSize: PropTypes.number,
+      changeValue: PropTypes.func, //'func' instead of 'function'
+    };
     function App() {
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => setValue("Revert Changes");
       return (
         <div>
-          <Btn banana="Save" />
-          <Btn banana="Delete" />
+          <MemorizedBtn
+            banana={value}
+            fontSize={18}
+            changeValue={changeValue}
+          />
+          <MemorizedBtn banana="Delete" />
         </div>
       );
     }
