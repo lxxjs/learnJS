@@ -1,47 +1,52 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Button from "./Button.js";
 
 function App() {
-  const [counter, setCounter] = useState(0);
-  const [keyword, setKeyword] = useState("");
-  const [showing, setShowing] = useState(false);
-  const onClick = () => setCounter((prev) => prev + 1);
-  const onChange = (event) => setKeyword(event.target.value);
-  const onShow = () => setShowing((prev) => !prev);
-  console.log("I run all the time");
-  const iRunOnlyOnce = () => {
-    console.log("I run only once");
-  };
-  useEffect(iRunOnlyOnce, []);
-  useEffect(() => {
-    if (keyword !== "") {
-      console.log("Search for", keyword);
+  const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState([]);
+  function onSubmit(event) {
+    event.preventDefault();
+    if (todo !== "") {
+      setTodos([...todos, todo]);
+      setTodo("");
     }
-  }, [keyword]); // executed only when 'keyword' changes
-  useEffect(() => {
-    console.log("i run when counter changes");
-  }, [counter]);
-
-  function Hello() {
-    useEffect(() => {
-      console.log("Created");
-      return () => {
-        console.log("Destroyed");
-      }; // useEffect returns a clean up function which is called when the component is destroyed
-    }, []);
-    return <h1>Hello</h1>;
+    console.log(todos);
+  }
+  function onChange(event) {
+    setTodo(event.target.value);
+  }
+  function deleteTodo(deleteIndex) {
+    console.log(deleteIndex);
+    setTodos((todos) => todos.filter((_, index) => index !== deleteIndex)); // 명목변수 / 자리변수 unused param
   }
   return (
     <div>
-      <input
-        value={keyword}
-        onChange={onChange}
-        type="text"
-        placeholder="Search here..."
-      />
-      <h1>{counter}</h1>
-      <button onClick={onClick}>click!</button>
-      {showing ? <Hello /> : null}
-      <button onClick={onShow}>{showing ? "Hide" : "Show"}</button>
+      <h1>My To dos({todos.length})</h1>
+      <form onSubmit={onSubmit}>
+        <input
+          value={todo}
+          onChange={onChange}
+          type="text"
+          placeholder="What's your to do?"
+        ></input>
+        <Button text="Add" />
+      </form>
+      <hr />
+      <ul>
+        {todos.map((item, index) => {
+          return (
+            <li key={index}>
+              {item}
+              <Button
+                onClick={() => {
+                  deleteTodo(index);
+                }}
+                text="X"
+              />
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
