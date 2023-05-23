@@ -8,10 +8,12 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/movie",
+    path: "/movie/:id",
     element: <Detail />,
   },
-]);
+], {
+  basename:{process.env.PUBLIC_URL},
+});
 
 function App() {
   return <RouterProvider router={router} />;
